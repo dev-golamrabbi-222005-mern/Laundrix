@@ -50,16 +50,28 @@ export default function SocialLogin() {
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "";
   const facebookAppId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? "";
 
+  const isGoogleConfigured =
+    Boolean(googleClientId) &&
+    googleClientId !== "your_google_client_id" &&
+    !googleClientId.includes("your_google");
+
+  const isFacebookConfigured =
+    Boolean(facebookAppId) &&
+    facebookAppId !== "your_facebook_app_id" &&
+    !facebookAppId.includes("your_facebook");
+
   return (
     <div className="flex flex-col md:flex-row gap-3 w-full">
       {/* ── Google ─────────────────────────────────────────────────────────── */}
-      {googleClientId ? (
+      {isGoogleConfigured ? (
         <GoogleOAuthProvider clientId={googleClientId}>
           <div className="flex justify-center w-full">
             <GoogleLogin
               onSuccess={handleGoogle}
               onError={() => toast.error("Google login failed")}
               useOneTap={false}
+              theme="outline"
+              size="large"
               width="100%"
             />
           </div>
@@ -67,8 +79,12 @@ export default function SocialLogin() {
       ) : (
         <button
           type="button"
-          disabled
-          className="w-full h-12 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center gap-3 font-medium text-slate-700 transition disabled:cursor-not-allowed"
+          onClick={() =>
+            toast.error(
+              "Google Login is not configured. Please add NEXT_PUBLIC_GOOGLE_CLIENT_ID to your environment variables."
+            )
+          }
+          className="w-full h-12 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center gap-3 font-medium text-slate-700 transition cursor-pointer shadow-sm active:scale-[0.99]"
         >
           <FcGoogle className="text-xl" />
           Continue with Google
@@ -76,7 +92,7 @@ export default function SocialLogin() {
       )}
 
       {/* ── Facebook ───────────────────────────────────────────────────────── */}
-      {facebookAppId ? (
+      {isFacebookConfigured ? (
         <FacebookLogin
           appId={facebookAppId}
           autoLoad={false}
@@ -88,11 +104,9 @@ export default function SocialLogin() {
               type="button"
               onClick={renderProps.onClick}
               disabled={renderProps.isDisabled}
-              className="w-full flex items-center justify-center gap-2 bg-[#1877F2] text-white rounded-md hover:bg-[#166FE5] transition-colors shadow-sm font-medium h-10 px-4 disabled:opacity-60"
+              className="w-full h-12 rounded-xl flex items-center justify-center gap-3 bg-[#1877F2] text-white hover:bg-[#166FE5] transition shadow-sm font-medium px-4 disabled:opacity-60 cursor-pointer active:scale-[0.99]"
             >
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-              </svg>
+              <FaFacebookF className="text-lg" />
               Continue with Facebook
             </button>
           )}
@@ -100,8 +114,12 @@ export default function SocialLogin() {
       ) : (
         <button
           type="button"
-          disabled
-          className="w-full h-12 rounded-xl bg-[#1877F2] hover:bg-[#166FE5] text-white flex items-center justify-center gap-3 font-medium transition disabled:cursor-not-allowed"
+          onClick={() =>
+            toast.error(
+              "Facebook Login is not configured. Please add NEXT_PUBLIC_FACEBOOK_APP_ID to your environment variables."
+            )
+          }
+          className="w-full h-12 rounded-xl bg-[#1877F2] hover:bg-[#166FE5] text-white flex items-center justify-center gap-3 font-medium transition cursor-pointer shadow-sm active:scale-[0.99]"
         >
           <FaFacebookF className="text-lg" />
           Continue with Facebook
