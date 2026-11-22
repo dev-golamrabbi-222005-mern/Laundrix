@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
-import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  turbopack: {
-    root: path.resolve(__dirname),
-  },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion", "recharts", "swiper"],
   },
@@ -51,24 +47,6 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(self), microphone=(), geolocation=(self)",
-          },
-        ],
-      },
-      {
-        source: "/_next/image(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
           },
         ],
       },

@@ -22,7 +22,7 @@ export const initSocket = (server: HttpServer) => {
   setIO(io);
 
   // Optional Authentication Middleware for Socket Connection
-  io.use((socket: Socket, next) => {
+  io.use((socket: Socket, next: (err?: any) => void) => {
     const token =
       socket.handshake.auth?.token ||
       socket.handshake.headers?.authorization?.replace("Bearer ", "");
