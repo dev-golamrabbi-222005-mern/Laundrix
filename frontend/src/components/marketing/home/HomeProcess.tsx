@@ -1,0 +1,170 @@
+"use client";
+
+import React from "react";
+import { Calendar, Truck, QrCode, Sparkles, ShieldCheck, Package } from "lucide-react";
+import { motion } from "framer-motion";
+
+// Helper to render icon
+const getIcon = (name: string, props: any) => {
+  const IconMap: Record<string, any> = { Calendar, Truck, QrCode, Sparkles, ShieldCheck, Package };
+  const Icon = IconMap[name] || Calendar;
+  return <Icon {...props} />;
+};
+
+export function HomeProcess({ data }: { data?: any }) {
+  const title = data?.title || "Six Steps to Perfectly Clean";
+  const subtitle = data?.subtitle || "From a single tap to delivery at your door — every step tracked, automated, and transparent.";
+
+  const steps = data?.items?.length ? data.items : [
+    { icon: "Calendar", title: "Book", desc: "Schedule your pickup in under 60 seconds.", num: "01" },
+    { icon: "Truck", title: "Pickup", desc: "We collect at your chosen time window.", num: "02" },
+    { icon: "QrCode", title: "QR Tagging", desc: "Every garment gets a unique QR identity.", num: "03" },
+    { icon: "Sparkles", title: "Processing", desc: "Expert cleaning using premium products.", num: "04" },
+    { icon: "ShieldCheck", title: "Quality Check", desc: "Multi-point inspection before packaging.", num: "05" },
+    { icon: "Package", title: "Delivery", desc: "Clean clothes returned to your door.", num: "06" }
+  ];
+
+  // const bottomCards = [
+  //   {
+  //     icon: Calendar,
+  //     title: "Book & Pay",
+  //     desc: "Select service, garments, and slot. Pay instantly via bKash, card, or wallet."
+  //   },
+  //   {
+  //     icon: QrCode,
+  //     title: "Pickup & QR Tag",
+  //     desc: "Agent collects your laundry. Every garment tagged with a unique trackable QR code."
+  //   },
+  //   {
+  //     icon: Sparkles, // placeholder for refresh icon
+  //     title: "Process & Inspect",
+  //     desc: "Vendor processes garments. Quality check at every stage. Zero tolerance for errors."
+  //   },
+  //   {
+  //     icon: Truck, // placeholder for delivery truck
+  //     title: "Pack & Deliver",
+  //     desc: "Packaged securely and delivered on schedule. Rate your experience in-app."
+  //   }
+  // ];
+
+  return (
+    <section className="bg-card py-12 md:py-16 lg:py-20 border-t border-border">
+      <div className="max-w-[1380px] mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mx-auto mb-16 max-w-3xl text-center"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-2 shadow-sm">
+            <Sparkles className="h-4 w-4 text-primary" />
+
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              The Process
+            </span>
+          </div>
+
+          <h2 className="mt-5 text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
+            {title}
+          </h2>
+
+          <p className="mt-5 mx-auto max-w-2xl text-base leading-7 text-muted-foreground">
+            {subtitle}
+          </p>
+        </motion.div>
+
+        {/* Top 6 Icons Row */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-20 relative">
+          {/* Connecting line for desktop */}
+          <div className="hidden lg:block absolute top-10 left-12 right-12 h-[2px] bg-blue-100 z-0"></div>
+
+          {steps.map((step: any, idx: number) => (
+            // <motion.div
+            //   initial={{ opacity: 0, y: 20 }}
+            //   whileInView={{ opacity: 1, y: 0 }}
+            //   viewport={{ once: true }}
+            //   transition={{ delay: idx * 0.1 }}
+            //   key={idx}
+            //   className="flex flex-col items-center text-center relative z-10"
+            // >
+            //   <div className="relative mb-6">
+            //     <div className="w-20 h-20 bg-brand-blue rounded-3xl flex items-center justify-center text-white shadow-xl shadow-blue-500/30 transform transition-transform hover:scale-105">
+            //       {getIcon(step.icon, { size: 32 })}
+            //     </div>
+            //     <div className="absolute -top-3 -right-3 w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white text-xs font-bold border-4 border-white shadow-sm">
+            //       {step.subtitle || step.num}
+            //     </div>
+            //   </div>
+            //   <h4 className="font-bold text-slate-900 mb-2">{step.title}</h4>
+            //   <p className="text-xs text-slate-500 max-w-[140px] leading-relaxed">{step.content || step.desc}</p>
+            // </motion.div>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.08 }}
+              className="relative z-10 flex flex-col items-center text-center"
+            >
+              <div className="relative">
+                <div
+                  className="
+                    flex
+                    h-20
+                    w-20
+                    items-center
+                    justify-center
+                    rounded-3xl
+                    border
+                    border-primary/10
+                    bg-primary
+                    text-primary-foreground
+                    shadow-xl
+                    shadow-primary/20
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                    hover:shadow-primary/30
+                "
+                >
+                  {getIcon(step.icon, {
+                    size: 32,
+                  })}
+                </div>
+                <div
+                  className="
+                    absolute
+                    -top-2
+                    -right-2
+                    flex
+                    h-8
+                    w-8
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-foreground
+                    text-background
+                    text-xs
+                    font-bold
+                    border-2
+                    border-background
+                    shadow-md
+                  "
+                >
+                  {step.subtitle || step.num}
+                </div>
+              </div>
+              <h3 className="mt-6 text-lg font-semibold text-foreground">
+                {step.title}
+              </h3>
+              <p className="mt-2 max-w-[170px] text-sm leading-6 text-muted-foreground">
+                {step.content || step.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
